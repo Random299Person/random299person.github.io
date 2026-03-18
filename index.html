@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rp299</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-glow: 139, 92, 246; /* Purple glow */
+            --secondary-glow: 59, 130, 246; /* Blue glow */
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #4c1d95 0%, #1e3a8a 100%);
+            color: #ffffff;
+        }
+
+        h1, h2, h3, .nav-btn {
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        /* Canvas Background */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none; /* Let clicks pass through to the UI */
+        }
+
+        /* Floating Glass Pane */
+        .glass-pane {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 
+                        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            z-index: 10;
+        }
+
+        /* Futuristic Neon Button Hover */
+        .nav-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(var(--secondary-glow), 0.8);
+            box-shadow: 0 0 20px rgba(var(--secondary-glow), 0.4),
+                        inset 0 0 10px rgba(var(--secondary-glow), 0.2);
+            transform: translateY(-2px);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+        }
+
+        .link-btn {
+            transition: all 0.3s;
+            background: linear-gradient(90deg, rgba(var(--primary-glow), 0.8), rgba(var(--secondary-glow), 0.8));
+        }
+        
+        .link-btn:hover {
+            box-shadow: 0 0 15px rgba(var(--primary-glow), 0.6);
+            filter: brightness(1.2);
+        }
+
+        /* Card Styles */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(var(--primary-glow), 0.5);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8),
+                        0 0 15px rgba(var(--primary-glow), 0.2);
+        }
+
+        /* Screen Transitions */
+        .screen {
+            display: none;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Scrollbar for the pane */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(139, 92, 246, 0.5);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(139, 92, 246, 0.8);
+        }
+
+        /* Profile Image Glow */
+        .profile-glow {
+            box-shadow: 0 0 30px rgba(var(--primary-glow), 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body class="antialiased flex items-center justify-center min-h-screen relative p-4 sm:p-8">
+
+    <!-- Interactive Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Floating Middle Pane -->
+    <main class="glass-pane w-full max-w-4xl max-h-[90vh] rounded-2xl overflow-y-auto relative flex flex-col p-6 sm:p-10">
+        
+        <!-- ================= HOME SCREEN ================= -->
+        <div id="home-screen" class="screen active">
+            <div class="flex flex-col items-center text-center space-y-6">
+                
+                <!-- Profile Image -->
+                <div class="relative w-32 h-32 sm:w-40 sm:h-40 rounded-full profile-glow overflow-hidden mt-4">
+                    <!-- Replace with your own image URL -->
+                    <img src="PFP.svg" alt="Profile" class="w-full h-full object-cover">
+                </div>
+
+                <!-- Bio Info -->
+                <div class="space-y-2">
+                    <h1 class="text-4xl sm:text-5xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-blue-300 drop-shadow-lg">
+                        Prismatic
+                    </h1>
+                    
+                    <div class="flex items-center justify-center gap-2 text-blue-200 bg-black/20 px-4 py-1.5 rounded-full inline-flex border border-white/10 mx-auto">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0 a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>
+                        <span class="font-medium text-sm">@rp299</span>
+                    </div>
+
+                    <p class="text-gray-300 max-w-lg mx-auto mt-4 text-sm sm:text-base leading-relaxed">
+                        Rblx Scripter, Project Manager
+                    </p>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="grid grid-cols-2 gap-4 w-full max-w-md mt-8">
+                    <button onclick="showScreen('projects')" class="nav-btn py-4 px-6 rounded-xl text-lg font-bold tracking-wide uppercase flex flex-col items-center justify-center gap-2">
+                        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        My Projects
+                    </button>
+                    <button onclick="showScreen('gallery')" class="nav-btn py-4 px-6 rounded-xl text-lg font-bold tracking-wide uppercase flex flex-col items-center justify-center gap-2">
+                        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        Gallery
+                    </button>
+                    <button onclick="showScreen('friends')" class="nav-btn py-4 px-6 rounded-xl text-lg font-bold tracking-wide uppercase flex flex-col items-center justify-center gap-2">
+                        <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        Friends
+                    </button>
+                    <button onclick="showScreen('likes')" class="nav-btn py-4 px-6 rounded-xl text-lg font-bold tracking-wide uppercase flex flex-col items-center justify-center gap-2">
+                        <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        What I Like
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PROJECTS SCREEN ================= -->
+        <div id="projects-screen" class="screen w-full">
+            <div class="flex items-center mb-8">
+                <button onclick="showScreen('home')" class="p-2 bg-white/5 hover:bg-white/20 rounded-lg transition-colors mr-4 group">
+                    <svg class="w-6 h-6 text-white group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                </button>
+                <h2 class="text-3xl font-bold tracking-wider text-purple-300 uppercase">My Projects</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card Template -->
+                <div class="glass-card rounded-xl overflow-hidden flex flex-col h-full">
+                    <img src="DCS_Banner.png" alt="Project 1" class="w-full h-40 object-cover opacity-80 hover:opacity-100 transition-opacity">
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold mb-2">Dark Cube Studio</h3>
+                        <p class="text-sm text-gray-300 flex-grow mb-4">A Roblox game development studio. This hosts the community of Dark Cube Studio and Sprunki Plus.</p>
+                        <a href="https://www.roblox.com/communities/32033124" target="_blank" class="link-btn w-full py-2 rounded text-center font-bold text-sm tracking-widest uppercase">Visit Site</a>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="glass-card rounded-xl overflow-hidden flex flex-col h-full">
+                    <img src="DCS_SprunkiPlus.png" alt="Project 2" class="w-full h-40 object-cover opacity-80 hover:opacity-100 transition-opacity">
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold mb-2">Sprunki Plus</h3>
+                        <p class="text-sm text-gray-300 flex-grow mb-4">A mash-up of sprunki, sprunki mods, and incredimods.</p>
+                        <a href="https://www.roblox.com/games/84681951229584" target="_blank" class="link-btn w-full py-2 rounded text-center font-bold text-sm tracking-widest uppercase">Visit Site</a>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="glass-card rounded-xl overflow-hidden flex flex-col h-full">
+                    <img src="EasyDRM_textbitmapped.svg" alt="Project 3" class="w-full h-40 object-cover opacity-80 hover:opacity-100 transition-opacity">
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold mb-2">EasyDRM (soon)</h3>
+                        <p class="text-sm text-gray-300 flex-grow mb-4">A secure place where users can upload their PenguinMod projects and manage their digital rights without the risk of decompilation and AI scraping.</p>
+                        <a class="link-btn w-full py-2 rounded text-center font-bold text-sm tracking-widest uppercase">SOON</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= GALLERY SCREEN ================= -->
+        <div id="gallery-screen" class="screen w-full">
+            <div class="flex items-center mb-8">
+                <button onclick="showScreen('home')" class="p-2 bg-white/5 hover:bg-white/20 rounded-lg transition-colors mr-4 group">
+                    <svg class="w-6 h-6 text-white group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                </button>
+                <h2 class="text-3xl font-bold tracking-wider text-blue-300 uppercase">Gallery</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+                i dont know what to put here yet lol
+                <!-- Gallery Item -->
+                <!-- <div class="glass-card rounded-xl overflow-hidden relative group">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80" alt="Art 1" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-5 backdrop-blur-sm">
+                        <h3 class="text-xl font-bold text-white mb-1">Abstract Render #01</h3>
+                        <p class="text-sm text-gray-300">Blender 3D experimental lighting.</p>
+                        <a href="#" class="mt-3 text-blue-400 hover:text-blue-300 text-sm font-bold uppercase tracking-wider flex items-center">View High Res <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></a>
+                    </div>
+                </div> -->
+                <!-- Gallery Item 2 -->
+                <!-- <div class="glass-card rounded-xl overflow-hidden relative group">
+                    <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=800&q=80" alt="Art 2" class="w-full h-56 object-cover">
+                    <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-5 backdrop-blur-sm">
+                        <h3 class="text-xl font-bold text-white mb-1">Neon Cityscape</h3>
+                        <p class="text-sm text-gray-300">Digital painting done in Procreate.</p>
+                        <a href="#" class="mt-3 text-blue-400 hover:text-blue-300 text-sm font-bold uppercase tracking-wider flex items-center">View High Res <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></a>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+
+        <!-- ================= FRIENDS SCREEN ================= -->
+        <div id="friends-screen" class="screen w-full">
+            <div class="flex items-center mb-8">
+                <button onclick="showScreen('home')" class="p-2 bg-white/5 hover:bg-white/20 rounded-lg transition-colors mr-4 group">
+                    <svg class="w-6 h-6 text-white group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                </button>
+                <h2 class="text-3xl font-bold tracking-wider text-pink-300 uppercase">My Friends</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Friend Card -->
+                <div class="glass-card rounded-xl p-4 flex items-center gap-4">
+                    <img src="pfp_johnny.png" alt="Friend 1" class="w-16 h-16 rounded-full object-cover border-2 border-blue-400/50">
+                    <div class="flex-grow">
+                        <h3 class="text-lg font-bold">Johnny_11</h3>
+                        <p class="text-xs text-gray-400">"i make roblox games, i also do python, c# and some webdev"</p>
+                    </div>
+                    <a href="https://guns.lol/johnny_11" target="_blank" class="p-2 bg-white/10 rounded hover:bg-pink-500/50 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                    </a>
+                </div>
+                <!-- Friend Card -->
+                <div class="glass-card rounded-xl p-4 flex items-center gap-4">
+                    <img src="pfp_zayn.png" alt="Friend 2" class="w-16 h-16 rounded-full object-cover border-2 border-blue-400/50">
+                    <div class="flex-grow">
+                        <h3 class="text-lg font-bold">Zayn</h3>
+                        <p class="text-xs text-gray-400">"Roblox Developer, Marketer & Investor"</p>
+                    </div>
+                </div>
+                <!-- Friend Card -->
+                <div class="glass-card rounded-xl p-4 flex items-center gap-4">
+                    <img src="pfp_draker.png" alt="Friend 3" class="w-16 h-16 rounded-full object-cover border-2 border-blue-400/50">
+                    <div class="flex-grow">
+                        <h3 class="text-lg font-bold">Draker</h3>
+                        <p class="text-xs text-gray-400">Creator of Sprunked, Sprunki 1996, and other mods</p>
+                    </div>
+                    <a href="https://criticalskew.cc/" target="_blank" class="p-2 bg-white/10 rounded hover:bg-pink-500/50 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                    </a>
+                </div>
+                <!-- Friend Card -->
+                <div class="glass-card rounded-xl p-4 flex items-center gap-4">
+                    <img src="pfp_conner.png" alt="Friend 4" class="w-16 h-16 rounded-full object-cover border-2 border-blue-400/50">
+                    <div class="flex-grow">
+                        <h3 class="text-lg font-bold">Conner</h3>
+                        <p class="text-xs text-gray-400">"Autistic 13yr old who makes sprunki mods & incredibox engines in penguinmod."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-white-300 max-w-lg mx-auto mt-4 text-sm sm:text-base leading-relaxed">
+                Don't panic if you don't see your name here! I have a lot of friends in my list and I may have forgot to list you, but I love you all <span class="text-pink-400">❤️</span>
+            </p>
+        </div>
+
+        <!-- ================= WHAT I LIKE SCREEN ================= -->
+        <div id="likes-screen" class="screen w-full">
+            <div class="flex items-center mb-8">
+                <button onclick="showScreen('home')" class="p-2 bg-white/5 hover:bg-white/20 rounded-lg transition-colors mr-4 group">
+                    <svg class="w-6 h-6 text-white group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                </button>
+                <h2 class="text-3xl font-bold tracking-wider text-yellow-300 uppercase">What I Like</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <!-- Like Card -->
+                <div class="glass-card rounded-xl overflow-hidden flex flex-col h-full">
+                    <img src="agoraphobia.png" alt="Agoraphobia" class="w-full h-40 object-cover opacity-80 hover:opacity-100 transition-opacity">
+                    <div class="p-6 flex flex-col items-center text-center flex-grow">
+                        <h3 class="text-xl font-bold mb-2">Agoraphobia</h3>
+                        <p class="text-sm text-gray-300 mb-2">basically survivors have to complete terminals and escape the facility while avoiding a killer with a large hammer that drags survivors into freezers and survivors have to rescue captured survivors</p>
+                        <p class="text-sm text-gray-300 mb-4">In all seriousness, go check it out! It's really fun.</p>
+                        <a href="https://www.roblox.com/games/106409699928440" target="_blank" class="link-btn w-full py-2 rounded text-center font-bold text-sm tracking-widest uppercase mt-auto">Try it out</a>
+                    </div>
+                </div>
+                <!-- Like Card -->
+                <div class="glass-card rounded-xl overflow-hidden flex flex-col h-full">
+                    <img src="penguinmod.png" alt="PenguinMod" class="w-full h-40 object-cover opacity-80 hover:opacity-100 transition-opacity">
+                    <div class="p-6 flex flex-col items-center text-center flex-grow">
+                        <h3 class="text-xl font-bold mb-2">PenguinMod</h3>
+                        <p class="text-sm text-gray-300 mb-4">It's basically Scratch but way faster and way more features. I have tried out TurboWarp too, which is what PenguinMod was forked off of.</p>
+                        <a href="https://studio.penguinmod.com/editor.html" target="_blank" class="link-btn w-full py-2 rounded text-center font-bold text-sm tracking-widest uppercase mt-auto">Editor</a>
+                    </div>
+                </div>
+                <!-- Like Card -->
+                <div class="glass-card rounded-xl overflow-hidden flex flex-col h-full">
+                    <img src="studio.webp" alt="Roblox Studio" class="w-full h-40 object-cover opacity-80 hover:opacity-100 transition-opacity">
+                    <div class="p-6 flex flex-col items-center text-center flex-grow">
+                        <h3 class="text-xl font-bold mb-2">Roblox Studio</h3>
+                        <p class="text-sm text-gray-300 mb-4">Lets you build and design your own games and experiences on ROBLOX.</p>
+                        <a href="https://developer.roblox.com/en-us/articles/roblox-studio" target="_blank" class="link-btn w-full py-2 rounded text-center font-bold text-sm tracking-widest uppercase mt-auto">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Interactive Canvas & UI Logic -->
+    <script>
+        // --- UI Navigation Logic ---
+        function showScreen(screenId) {
+            // Hide all screens
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach(s => {
+                s.classList.remove('active');
+            });
+            
+            // Show target screen
+            const target = document.getElementById(screenId + '-screen');
+            if(target) {
+                target.classList.add('active');
+                // Scroll top inside pane
+                target.parentElement.scrollTop = 0;
+            }
+        }
+
+        // --- Interactive Background Canvas Logic ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let particles = [];
+        const particleCount = 100; // Adjust for performance
+        const connectionDistance = 150; // How close to connect lines
+        
+        // Mouse tracking
+        let mouse = { x: null, y: null, radius: 200 };
+
+        // Handle Resize
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Track Mouse
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+        
+        // Reset mouse on leave
+        window.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        // Particle Class
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.vy = (Math.random() - 0.5) * 1.5;
+                this.baseRadius = Math.random() * 2 + 1;
+                this.radius = this.baseRadius;
+            }
+
+            update() {
+                // Move
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Bounce off edges
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+
+                // Mouse interaction - slight attraction/repulsion & grow
+                if (mouse.x != null && mouse.y != null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < mouse.radius) {
+                        // Make particles slightly bigger near mouse
+                        this.radius = this.baseRadius + (mouse.radius - distance) * 0.02;
+                        
+                        // Slowly pull towards mouse
+                        const forceDirectionX = dx / distance;
+                        const forceDirectionY = dy / distance;
+                        const force = (mouse.radius - distance) / mouse.radius;
+                        
+                        this.vx += forceDirectionX * force * 0.05;
+                        this.vy += forceDirectionY * force * 0.05;
+                        
+                        // Friction limits speed
+                        this.vx *= 0.98;
+                        this.vy *= 0.98;
+                    } else {
+                        // Return to base radius
+                        if(this.radius > this.baseRadius) this.radius -= 0.1;
+                    }
+                } else {
+                    if(this.radius > this.baseRadius) this.radius -= 0.1;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+                ctx.fill();
+            }
+        }
+
+        // Initialize particles
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        // Animation Loop
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Update and draw all particles
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                // Connect particles with lines
+                for (let j = i; j < particles.length; j++) {
+                    let dx = particles[i].x - particles[j].x;
+                    let dy = particles[i].y - particles[j].y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        // Calculate opacity based on distance
+                        let opacity = 1 - (distance / connectionDistance);
+                        
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(139, 92, 246, ${opacity * 0.4})`; // Purple connection lines
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        // Start
+        initParticles();
+        animate();
+
+    </script>
+</body>
+</html>
