@@ -175,12 +175,52 @@
                     </button>
                     <button onclick="showScreen('friends')" class="nav-btn py-4 px-6 rounded-xl text-lg font-bold tracking-wide uppercase flex flex-col items-center justify-center gap-2">
                         <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                        Connections
+                        Team
                     </button>
                     <button onclick="showScreen('likes')" class="nav-btn py-4 px-6 rounded-xl text-lg font-bold tracking-wide uppercase flex flex-col items-center justify-center gap-2">
                         <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                         What I Like
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PROJECTS SCREEN ================= -->
+        <div id="projects-screen" class="screen w-full">
+            <div class="flex items-center mb-8">
+                <button onclick="showScreen('home')" class="p-2 bg-white/5 hover:bg-white/20 rounded-lg transition-colors mr-4 group">
+                    <svg class="w-6 h-6 text-white group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                </button>
+                <h2 class="text-3xl font-bold tracking-wider text-purple-300 uppercase">My Projects</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card Template -->
+                <div class="glass-card rounded-xl overflow-hidden flex flex-col h-full">
+                    <img src="DCS_Banner.png" alt="Project 1" class="w-full h-40 object-cover opacity-80 hover:opacity-100 transition-opacity">
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold mb-2">Dark Cube Studio</h3>
+                        <p class="text-sm text-gray-300 flex-grow mb-4">A Roblox game development studio. This hosts the community of Dark Cube Studio and Sprunki Plus.</p>
+                        <a href="https://www.roblox.com/communities/32033124" target="_blank" class="link-btn w-full py-2 rounded text-center font-bold text-sm tracking-widest uppercase">Visit Site</a>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="glass-card rounded-xl overflow-hidden flex flex-col h-full">
+                    <img src="DCS_SprunkiPlus.png" alt="Project 2" class="w-full h-40 object-cover opacity-80 hover:opacity-100 transition-opacity">
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold mb-2">Sprunki Plus</h3>
+                        <p class="text-sm text-gray-300 flex-grow mb-4">A mash-up of sprunki, sprunki mods, and incredimods.</p>
+                        <a href="https://www.roblox.com/games/84681951229584" target="_blank" class="link-btn w-full py-2 rounded text-center font-bold text-sm tracking-widest uppercase">Visit Site</a>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="glass-card rounded-xl overflow-hidden flex flex-col h-full">
+                    <img src="EasyDRM_textbitmapped.svg" alt="Project 3" class="w-full h-40 object-cover opacity-80 hover:opacity-100 transition-opacity">
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold mb-2">EasyDRM (soon)</h3>
+                        <p class="text-sm text-gray-300 flex-grow mb-4">A secure place where users can upload their PenguinMod projects and manage their digital rights without the risk of decompilation and AI scraping.</p>
+                        <a class="link-btn w-full py-2 rounded text-center font-bold text-sm tracking-widest uppercase">SOON</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -231,7 +271,7 @@
                 <button onclick="showScreen('home')" class="p-2 bg-white/5 hover:bg-white/20 rounded-lg transition-colors mr-4 group">
                     <svg class="w-6 h-6 text-white group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 </button>
-                <h2 class="text-3xl font-bold tracking-wider text-pink-300 uppercase">My Connections</h2>
+                <h2 class="text-3xl font-bold tracking-wider text-pink-300 uppercase">My Team</h2>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -242,7 +282,7 @@
                         <h3 class="text-lg font-bold">Johnny_11</h3>
                         <p class="text-xs text-gray-400">"i make roblox games, i also do python, c# and some webdev"</p>
                     </div>
-                    <a href="https://guns.lol/johnny_11" target="_blank" class="p-2 bg-white/10 rounded hover:bg-pink-500/50 transition-colors">
+                    <a href="https://www.youtube.com/@johnny_11" target="_blank" class="p-2 bg-white/10 rounded hover:bg-pink-500/50 transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
                     </a>
                 </div>
@@ -270,7 +310,7 @@
                     <img src="pfp_draker.png" alt="Friend" class="w-16 h-16 rounded-full object-cover border-2 border-blue-400/50">
                     <div class="flex-grow">
                         <h3 class="text-lg font-bold">Draker</h3>
-                        <p class="text-xs text-gray-400">Creator of Sprunked, Sprunki 1996, and other mods</p>
+                        <p class="text-xs text-gray-400">Creator of Sprunked, Sprunki 1996, and other incredimods</p>
                     </div>
                     <a href="https://criticalskew.cc/" target="_blank" class="p-2 bg-white/10 rounded hover:bg-pink-500/50 transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
@@ -286,9 +326,9 @@
                 </div>
             </div>
             
-            <p class="text-white-300 max-w-lg mx-auto mt-4 text-sm sm:text-base leading-relaxed">
+            <!-- <p class="text-white-300 max-w-lg mx-auto mt-4 text-sm sm:text-base leading-relaxed">
                 Don't panic if you don't see your name here! I have a lot of friends in my list and I may have forgot to list you, but I love you all <span class="text-pink-400">❤️</span>
-            </p>
+            </p> -->
         </div>
 
         <!-- ================= WHAT I LIKE SCREEN ================= -->
